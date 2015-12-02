@@ -1,8 +1,8 @@
 class BookingService
   include IceCube
 
-  def initialize(credentials)
-    @calendar = GoogleCalendarConnection.new(credentials)
+  def initialize(token)
+    @calendar = GoogleCalendarConnection.new(token)
   end
 
   def book(team:, room:, start_time:, end_time:, description: nil, recurrence: [])

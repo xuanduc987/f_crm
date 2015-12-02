@@ -4,8 +4,9 @@ class GoogleCalendarConnection
 
   Calendar = Google::Apis::CalendarV3
 
-  def initialize(credentials)
-    @auth_client = Signet::OAuth2::Client.new(credentials)
+  def initialize(token)
+    @auth_client = Signet::OAuth2::Client.new
+    @auth_client.update_token!(token)
   end
 
   def insert_event event, calendar_id: "primary"

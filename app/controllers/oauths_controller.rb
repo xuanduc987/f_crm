@@ -3,7 +3,7 @@ class OauthsController < ApplicationController
 
   def auth
     redirect_to callback_path and return if session[:credentials].blank?
-    render text: session[:credentials]
+    render json: session[:token]
   end
 
   def callback
@@ -16,17 +16,8 @@ class OauthsController < ApplicationController
     redirect_to auth_client.authorization_uri.to_s and return if params[:code].blank?
 
     auth_client.code = params[:code]
-    auth_client.fetch_access_token!
-    auth_client.client_secret = nil
-
-    # Work around
-    # session[:credentials] = auth_client.to_json
-    temp = JSON.parse(auth_client.to_json)
-    temp["authorization_uri"] = auth_client.authorization_uri.to_s
-    temp["token_credential_uri"] = auth_client.token_credential_uri.to_s
-    temp["redirect_uri"] = auth_client.redirect_uri.to_s
-
-    session[:credentials] = temp.to_json
+    token = auth_client.fetch_access_token
+    session[:token] = token
 
     redirect_to auth_path
   end
