@@ -16,7 +16,7 @@ class BookingService
 
     event = GoogleCalendarMapping.event_from_booking_item booking
 
-    @calendar.insert_event event
+    GoogleCalendarMapping.booking_items_from_event @calendar.insert_event(event)
   end
 
   def filter(time_min: Time.now, time_max: 3.month.from_now,

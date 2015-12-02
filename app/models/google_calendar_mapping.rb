@@ -8,7 +8,7 @@ class GoogleCalendarMapping
     def booking_items_from_event event
       booking_item = BookingItem.new.tap do |booking|
         summary = event.summary || ""
-        index  = summary.index('-')
+        index  = summary.index(':')
         if index.present?
           booking.room = summary.slice(0..(index - 1)).strip
           booking.team = summary.slice((index + 1)..-1).strip
@@ -24,7 +24,7 @@ class GoogleCalendarMapping
 
     def event_from_booking_item booking
       Calendar::Event.new(
-        summary: "#{booking.room} - #{booking.team}",
+        summary: "#{booking.room}: #{booking.team}",
         start: Calendar::EventDateTime.new(
           date_time: DateTime.parse(booking.start_time.to_s),
           time_zone: TIME_ZONE
