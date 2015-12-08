@@ -25,7 +25,7 @@ class BookingService
     events = @calendar.get_events(time_min, time_max)
 
     bookings = events.map { |x| GoogleCalendarMapping.booking_items_from_event(x) }
-    bookings.reject(&:blank?)
+    bookings.reject!(&:blank?)
 
     if team.present?
       bookings.select! { |booking| booking.team == team }

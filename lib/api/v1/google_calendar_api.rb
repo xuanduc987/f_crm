@@ -1,4 +1,5 @@
-class API < Grape::API
+require 'google/apis/calendar_v3'
+class API::V1::GoogleCalendarAPI < Grape::API
   format :json
   default_error_formatter :json
 

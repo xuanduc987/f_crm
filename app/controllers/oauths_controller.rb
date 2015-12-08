@@ -2,7 +2,7 @@ class OauthsController < ApplicationController
   require 'google/api_client/client_secrets'
 
   def auth
-    redirect_to callback_path and return if session[:credentials].blank?
+    redirect_to oauth2callback_path and return if session[:token].blank?
     render json: session[:token]
   end
 
